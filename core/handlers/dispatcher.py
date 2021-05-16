@@ -54,7 +54,3 @@ def process_telegram_event(update_json):
     update = telebot.types.Update.de_json(update_json)
     bot.process_new_updates([update])
 
-
-#bot = telebot.TeleBot(TELEGRAM_TOKEN)
-
-#bot.set_webhook(url='http://faf5f0bff88a.ngrok.io')
