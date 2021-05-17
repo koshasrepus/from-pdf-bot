@@ -12,7 +12,7 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 if DEBUG:
     url = 'https://b16fcd18fac3.ngrok.io/telegram_bot_path' # запуск ngrok(директория home) ./ngrok http 8000 , сайт https://ngrok.com/
 else:
-    url = 'https://app-my-places.herokuapp.com/telegram_bot_path'
+    url = 'https://from-pdf-bot.herokuapp.com/telegram_bot_path'
 
 bot.set_webhook(url=url)
 
