@@ -5,7 +5,7 @@ from core.handlers.dispatcher import process_telegram_event
 import json
 
 def index(request):
-    return JsonResponse({"error": "forbidden"})
+    return JsonResponse({"error": "forbidden!"})
 
 class TelegramBotWebhookView(View):
 
