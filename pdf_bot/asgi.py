@@ -1,5 +1,5 @@
 """
-ASGI config for pdf_bot1 project.
+ASGI config for pdf_bot project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
