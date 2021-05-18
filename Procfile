@@ -1,1 +1,1 @@
-web: gunicorn from-pdf-bot.wsgi --log-file -
+web: gunicorn pdf_bot.wsgi --log-file -
