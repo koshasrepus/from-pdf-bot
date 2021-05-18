@@ -10,7 +10,7 @@ from pdf_bot.settings import TELEGRAM_TOKEN, DEBUG
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 if DEBUG:
-    url = 'https://b16fcd18fac3.ngrok.io/telegram_bot_path' # запуск ngrok(директория home) ./ngrok http 8000 , сайт https://ngrok.com/
+    url = 'https://7e4db7b7be38.ngrok.io/telegram_bot_path' # запуск ngrok(директория home) ./ngrok http 8000 , сайт https://ngrok.com/
 else:
     url = 'https://from-pdf-bot.herokuapp.com/telegram_bot_path'
 

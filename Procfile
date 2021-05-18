@@ -1,1 +1,1 @@
-web: gunicorn app_my_places.wsgi --log-file -
+web: gunicorn from-pdf-bot.wsgi --log-file -
