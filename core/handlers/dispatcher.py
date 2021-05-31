@@ -1,6 +1,8 @@
 import telebot
 import pdftotext
 
+from core.models import User, Files
+
 import requests
 import tempfile
 
@@ -10,7 +12,7 @@ from pdf_bot.settings import TELEGRAM_TOKEN, DEBUG
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 if DEBUG:
-    url = 'https://7e4db7b7be38.ngrok.io/telegram_bot_path' # запуск ngrok(директория home) ./ngrok http 8000 , сайт https://ngrok.com/
+    url = 'https://a4ef15322027.ngrok.io/telegram_bot_path' # запуск ngrok(директория home) ./ngrok http 8000 , сайт https://ngrok.com/
 else:
     url = 'https://from-pdf-bot.herokuapp.com/telegram_bot_path'
 
@@ -20,6 +22,8 @@ bot.set_webhook(url=url)
 def hand_start_messate(message):
     resp = '/start - информация о боте\nБот конвертирует файлы PDF в формат txt\nОтправъте файл PDF в сообщении для конвертации в формат txt'
     bot.send_message(chat_id=message.chat.id, text=resp)
+    call_user(message)
+
 
 @bot.message_handler(commands=['output_format'])
 def hand_output_format(message):
@@ -29,8 +33,13 @@ def hand_output_format(message):
 @bot.message_handler(content_types=['document'])
 def hand_pdf_to_txt(message):
     file_to_convert = get_file_to_convert(message)
+    user = call_user(message)
+    save_file(user, message)
     pdf = text_pdf_from_txt(file_to_convert)
     send_pdf_file(message, pdf)
+    #user = User.objects.filter(chat_id=message.chat.id)
+    #user = user.get() if user else User.objects.create(chat_id=message.chat.id)
+    #user.save()
 
 def send_pdf_file(message, pdf):
     with tempfile.NamedTemporaryFile(mode='a+', suffix='.txt') as temp_pdf_file:
@@ -54,3 +63,20 @@ def process_telegram_event(update_json):
     update = telebot.types.Update.de_json(update_json)
     bot.process_new_updates([update])
 
+def call_user(message):
+    user = User.objects.filter(chat_id=message.chat.id)
+    user = user.get() if user else User.objects.create(chat_id=message.chat.id, username=message.from_user.username, is_bot=message.from_user.is_bot)
+    return user
+
+def save_file(user, message):
+    Files.objects.create(
+        user=user, file_id=message.document.file_id, file_unique_id=message.document.file_unique_id,
+        mime_type=message.document.mime_type, file_size=message.document.file_size
+    )
+
+# message.chat.first_name --> 'Aleksandr'
+# message.from_user.first_name
+# message.chat.last_name --> 'Evseev'
+# message.from_user.last_name
+# message.chat.username --> 'koshasrepus'
+# message.from_user.username
