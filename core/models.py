@@ -12,7 +12,7 @@ class Files(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     file_id = models.CharField(max_length=96)
     file_unique_id = models.CharField(max_length=32)
-    mime_type = models.CharField(max_length=32)
+    mime_type = models.CharField(max_length=96)
     file_size = models.IntegerField()
     date = models.DateTimeField(auto_now=True)
 
