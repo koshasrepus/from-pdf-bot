@@ -100,10 +100,3 @@ def convert_to_pdf(message, docx_to_convert):
         with open(f'{result_file}', 'br') as f:
             bot.send_document(chat_id=message.chat.id, data=f)
         os.remove(result_file)
-
-# message.chat.first_name --> 'Aleksandr'
-# message.from_user.first_name
-# message.chat.last_name --> 'Evseev'
-# message.from_user.last_name
-# message.chat.username --> 'koshasrepus'
-# message.from_user.username
