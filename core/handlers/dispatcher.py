@@ -104,8 +104,9 @@ def convert_to_pdf(message, docx_to_convert):
                 bot.send_document(chat_id=message.chat.id, data=f)
             os.remove(result_file)
         except Exception:
-            log_file_name = "log_{0}".format(date.today().strftime('%d_%m_%Y'))
-            traceback.print_exc(file=log_file_name)
+            log_file_name = "log_error_{0}".format(date.today().strftime('%d_%m_%Y'))
+            with open(log_file_name, "a") as f:
+                traceback.print_exc(file=f)
         finally:
             with open("log_{0}".format(date.today().strftime('%d_%m_%Y')), "a") as f:
                 f.write(' ;'.join(response.args))
