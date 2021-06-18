@@ -1,8 +1,2 @@
 build-essential libpoppler-cpp-dev pkg-config python3-dev
-libsm6
-libice6
-libxinerama1
-libdbus-glib-1-2
-libharfbuzz0b
-libx11-xcb1
 libreoffice-writer
