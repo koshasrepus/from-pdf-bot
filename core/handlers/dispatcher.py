@@ -10,6 +10,8 @@ from core.models import User, Files
 import requests
 import tempfile
 
+import traceback
+from datetime import date
 
 from pdf_bot.settings import TELEGRAM_TOKEN, DEBUG
 
@@ -91,12 +93,19 @@ def save_file(user, message):
 def convert_to_pdf(message, docx_to_convert):
     cur_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     with tempfile.NamedTemporaryFile(suffix='.docx', dir=cur_dir) as temp_file_to_convert:
-        temp_file_to_convert.write(docx_to_convert)
-        temp_file_to_convert.seek(0)
-        name_file = temp_file_to_convert.name
-        args = ['libreoffice', '--headless', '--convert-to', 'pdf', name_file]
-        subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        result_file = name_file.split('.')[0] + '.pdf'
-        with open(f'{result_file}', 'br') as f:
-            bot.send_document(chat_id=message.chat.id, data=f)
-        os.remove(result_file)
+        try:
+            temp_file_to_convert.write(docx_to_convert)
+            temp_file_to_convert.seek(0)
+            name_file = temp_file_to_convert.name
+            args = ['libreoffice', '--headless', '--convert-to', 'pdf', name_file]
+            response = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result_file = name_file.split('.')[0] + '.pdf'
+            with open(f'{result_file}', 'br') as f:
+                bot.send_document(chat_id=message.chat.id, data=f)
+            os.remove(result_file)
+        except Exception:
+            log_file_name = "log_{0}".format(date.today().strftime('%d_%m_%Y'))
+            traceback.print_exc(file=log_file_name)
+        finally:
+            with open("log_{0}".format(date.today().strftime('%d_%m_%Y')), "a") as f:
+                f.write(' ;'.join(response.args))
