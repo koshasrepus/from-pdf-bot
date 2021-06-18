@@ -100,7 +100,8 @@ def convert_to_pdf(message, docx_to_convert):
             name_file_dir = temp_file_to_convert.name.split('/')
             name_file = name_file_dir[len(name_file_dir)-1]
             sys.stdout.write(name_file)
-            args = ['libreoffice', '--headless', '--convert-to', 'pdf', name_file]
+            args = ['libreoffice', '--headless', '--convert-to', 'pdf:writer_pdf_Export', name_file]
+            #args = ['libreoffice', '"-env:UserInstallation=file:///tmp/LibreOffice_Conversion_${USER}"', '--convert-to', 'pdf:writer_pdf_Export', name_file]
             subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             result_file = name_file.split('.')[0] + '.pdf'
             with open(f'{result_file}', 'br') as f:
