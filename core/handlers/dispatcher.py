@@ -1,4 +1,3 @@
-import django
 import subprocess
 import os
 
@@ -11,7 +10,8 @@ import requests
 import tempfile
 
 import traceback
-from datetime import date
+
+import sys
 
 from pdf_bot.settings import TELEGRAM_TOKEN, DEBUG
 
@@ -98,15 +98,10 @@ def convert_to_pdf(message, docx_to_convert):
             temp_file_to_convert.seek(0)
             name_file = temp_file_to_convert.name
             args = ['libreoffice', '--headless', '--convert-to', 'pdf', name_file]
-            response = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             result_file = name_file.split('.')[0] + '.pdf'
             with open(f'{result_file}', 'br') as f:
                 bot.send_document(chat_id=message.chat.id, data=f)
             os.remove(result_file)
         except Exception:
-            log_file_name = "log_error_{0}".format(date.today().strftime('%d_%m_%Y'))
-            with open(log_file_name, "a") as f:
-                traceback.print_exc(file=f)
-        finally:
-            with open("log_{0}".format(date.today().strftime('%d_%m_%Y')), "a") as f:
-                f.write(' ;'.join(response.args))
+            traceback.print_exc(file=sys.stdout)
