@@ -49,9 +49,6 @@ def hand_pdf_to_txt(message):
     else:
         resp = 'Не могу конвертировать из этого формата'
         bot.send_message(chat_id=message.chat.id, text=resp)
-    #user = User.objects.filter(chat_id=message.chat.id)
-    #user = user.get() if user else User.objects.create(chat_id=message.chat.id)
-    #user.save()
 
 def send_pdf_file(message, pdf):
     with tempfile.NamedTemporaryFile(mode='a+', suffix='.txt') as temp_pdf_file:
