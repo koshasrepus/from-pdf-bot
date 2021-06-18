@@ -96,7 +96,10 @@ def convert_to_pdf(message, docx_to_convert):
         try:
             temp_file_to_convert.write(docx_to_convert)
             temp_file_to_convert.seek(0)
-            name_file = temp_file_to_convert.name
+            #name_file = temp_file_to_convert.name
+            name_file_dir = temp_file_to_convert.name.split('/')
+            name_file = name_file_dir[len(name_file_dir)-1]
+            sys.stdout.write(name_file)
             args = ['libreoffice', '--headless', '--convert-to', 'pdf', name_file]
             subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             result_file = name_file.split('.')[0] + '.pdf'
