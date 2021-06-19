@@ -4,7 +4,7 @@ import os
 import telebot
 import pdftotext
 
-from core.models import User, Files
+
 
 import requests
 import tempfile
@@ -14,6 +14,7 @@ import traceback
 import sys
 
 from pdf_bot.settings import TELEGRAM_TOKEN, DEBUG
+from core.models import User, Files
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
