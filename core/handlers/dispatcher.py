@@ -5,7 +5,6 @@ import telebot
 import pdftotext
 
 
-
 import requests
 import tempfile
 
