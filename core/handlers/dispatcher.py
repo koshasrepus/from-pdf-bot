@@ -106,3 +106,5 @@ def convert_to_pdf(message, docx_to_convert):
             os.remove(result_file)
         except Exception:
             traceback.print_exc(file=sys.stdout)
+            sys.stdout.write(result)
+            sys.stdout.write(name_file)
